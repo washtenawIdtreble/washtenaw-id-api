@@ -7,3 +7,16 @@ app.get("/ping", async (_request, response) => {
         .status(200)
         .json({ message: "pong" });
 });
+
+app.get("/categories", async (_request, response) => {
+    response
+        .status(200)
+        .json([
+            "banks",
+            "food",
+            "jobs",
+            "mental health",
+            "pharmacies",
+            "transportation",
+        ]);
+});
