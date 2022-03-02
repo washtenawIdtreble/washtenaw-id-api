@@ -7,4 +7,16 @@ describe("Endpoints", () => {
         expect(response.statusCode).toEqual(200);
         expect(response.body).toEqual({ message: "pong" });
     });
+    test("should have a categories endpoint", async () => {
+        const response = await request(app).get("/categories");
+        expect(response.statusCode).toEqual(200);
+        expect(response.body).toEqual([
+            "banks",
+            "food",
+            "jobs",
+            "mental health",
+            "pharmacies",
+            "transportation",
+        ]);
+    });
 });
