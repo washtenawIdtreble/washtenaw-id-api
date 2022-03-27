@@ -1,5 +1,6 @@
 {
   "name": "washtenaw-id-api",
+  "license": "GPL-3.0-only",
   "version": "0.1.0",
   "description": "Public API for fetching information about the Washtenaw ID App",
   "main": "src/sever.ts",
