@@ -26,6 +26,9 @@ Learn more and support the ID at http://www.washtenawid.com.
     - Node: 16.13.0
     - NPM: 8.5.1
 - Run `npm install` after cloning and use the scripts below to run the server
+- Create a file called .env
+    - Keys can be copied from the file called .env.template
+    - Values for the Washtenaw ID Project can be found in the team 1Password Vault.
 
 ## Available Scripts
 
