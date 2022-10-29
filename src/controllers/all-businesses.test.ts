@@ -29,7 +29,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: "mental health", businesses: [
+                category: "mental-health", businesses: [
                     "business 1",
                     "business 2",
                     "business 3",

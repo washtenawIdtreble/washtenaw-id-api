@@ -1,15 +1,15 @@
 import { RequestHandler } from "express";
 
-type CategoriesResponse = string[];
+export type Categories = { displayName: string, category: string };
 
-const categoriesController = (): CategoriesResponse => {
+const categoriesController = (): Categories[] => {
     return [
-        "banks",
-        "food",
-        "jobs",
-        "mental health",
-        "pharmacies",
-        "transportation",
+        { displayName: "Banks", category: "banks" },
+        { displayName: "Food", category: "food" },
+        { displayName: "Jobs", category: "jobs" },
+        { displayName: "Mental Health", category: "mental-health" },
+        { displayName: "Pharmacies", category: "pharmacies" }, 
+        { displayName: "Transportation", category: "transportation" },
     ];
 };
 
