@@ -1,8 +1,8 @@
-import { Categories } from "../src/controllers/categories";
+import { Category } from "../src/controllers/categories";
 import { CategorizedBusinesses } from "../src/controllers/all-businesses";
 import { AccessibilityFormData } from "../src/controllers/accessibility-form-submit";
 
-export const stubCategories = (attributes: Partial<Categories> = {}): Categories => {
+export const stubCategory = (attributes: Partial<Category> = {}): Category => {
     return {
         displayName: attributes.displayName === undefined ? "Stub DisplayName" : attributes.displayName,
         category: attributes.category === undefined ? "Stub Category" : attributes.category,
@@ -11,7 +11,7 @@ export const stubCategories = (attributes: Partial<Categories> = {}): Categories
 
 export const stubCategorizedBusinesses = (attributes: Partial<CategorizedBusinesses> = {}): CategorizedBusinesses => {
     return {
-        category: attributes.category === undefined ? "Stub Category" : attributes.category,
+        category: attributes.category === undefined ? stubCategory() : attributes.category,
         businesses: attributes.businesses === undefined ? ["Stub Business"] : attributes.businesses,
     };
 };

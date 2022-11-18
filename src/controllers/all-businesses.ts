@@ -1,49 +1,56 @@
 import { RequestHandler } from "express";
+import { Category, CATEGORIES } from "./categories";
 
 export type CategorizedBusinesses = {
-    category: string;
+    category: Category;
     businesses: string[];
 }
 
 const businessesController = (): CategorizedBusinesses[] => {
     return [
         {
-            category: "banks", businesses: [
+            category: CATEGORIES.banks, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",
             ],
         },
         {
-            category: "food", businesses: [
+            category: CATEGORIES.food, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",
             ],
         },
         {
-            category: "jobs", businesses: [
+            category: CATEGORIES.jobs, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",
             ],
         },
         {
-            category: "mental-health", businesses: [
+            category: CATEGORIES.mentalHealth, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",
             ],
         },
         {
-            category: "pharmacies", businesses: [
+            category: CATEGORIES.pharmacies, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",
             ],
         },
         {
-            category: "transportation", businesses: [
+            category: CATEGORIES.transportation, 
+            businesses: [
                 "business 1",
                 "business 2",
                 "business 3",

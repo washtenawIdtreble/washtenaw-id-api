@@ -1,15 +1,24 @@
 import { RequestHandler } from "express";
 
-export type Categories = { displayName: string, category: string };
+export type Category = { displayName: string, category: string };
 
-const categoriesController = (): Categories[] => {
+export const CATEGORIES = {
+    banks: { displayName: "Banks", category: "banks" },
+    food: { displayName: "Food", category: "food" },
+    jobs: { displayName: "Jobs", category: "jobs" },
+    mentalHealth: { displayName: "Mental Health", category: "mental-health" },
+    pharmacies: { displayName: "Pharmacies", category: "pharmacies" }, 
+    transportation: { displayName: "Transportation", category: "transportation" },
+}; 
+
+const categoriesController = (): Category[] => {
     return [
-        { displayName: "Banks", category: "banks" },
-        { displayName: "Food", category: "food" },
-        { displayName: "Jobs", category: "jobs" },
-        { displayName: "Mental Health", category: "mental-health" },
-        { displayName: "Pharmacies", category: "pharmacies" }, 
-        { displayName: "Transportation", category: "transportation" },
+        CATEGORIES.banks,
+        CATEGORIES.food,
+        CATEGORIES.jobs,
+        CATEGORIES.mentalHealth,
+        CATEGORIES.pharmacies,
+        CATEGORIES.transportation,
     ];
 };
 
