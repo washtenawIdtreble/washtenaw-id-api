@@ -7,12 +7,12 @@ describe("categories endpoint", () => {
         const response = await request(app).get("/categories");
         expect(response.statusCode).toEqual(200);
         expect(response.body).toEqual([
-            stubCategory({ displayName: "Banks", category: "banks" }),
-            stubCategory({ displayName: "Food", category: "food" }),
-            stubCategory({ displayName: "Jobs", category: "jobs" }),
-            stubCategory({ displayName: "Mental Health", category: "mental-health" }),
-            stubCategory({ displayName: "Pharmacies", category: "pharmacies" }), 
-            stubCategory({ displayName: "Transportation", category: "transportation" }),
+            stubCategory({ displayName: "Banks", name: "banks" }),
+            stubCategory({ displayName: "Food", name: "food" }),
+            stubCategory({ displayName: "Jobs", name: "jobs" }),
+            stubCategory({ displayName: "Mental Health", name: "mental-health" }),
+            stubCategory({ displayName: "Pharmacies", name: "pharmacies" }),
+            stubCategory({ displayName: "Transportation", name: "transportation" }),
         ]);
     });
 });

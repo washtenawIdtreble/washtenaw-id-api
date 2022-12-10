@@ -5,7 +5,7 @@ import { AccessibilityFormData } from "../src/controllers/accessibility-form-sub
 export const stubCategory = (attributes: Partial<Category> = {}): Category => {
     return {
         displayName: attributes.displayName === undefined ? "Stub DisplayName" : attributes.displayName,
-        category: attributes.category === undefined ? "Stub Category" : attributes.category,
+        name: attributes.name === undefined ? "stub-name" : attributes.name,
     };
 };
 

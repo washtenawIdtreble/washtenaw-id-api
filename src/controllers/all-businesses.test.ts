@@ -8,7 +8,7 @@ describe("all businesses endpoint", () => {
         expect(response.statusCode).toEqual(200);
         expect(response.body).toEqual([
             stubCategorizedBusinesses({
-                category:{ displayName: "Banks", category: "banks" }, 
+                category: { displayName: "Banks", name: "banks" },
                 businesses: [
                     "business 1",
                     "business 2",
@@ -16,7 +16,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: { displayName: "Food", category: "food" }, 
+                category: { displayName: "Food", name: "food" },
                 businesses: [
                     "business 1",
                     "business 2",
@@ -24,7 +24,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: { displayName: "Jobs", category: "jobs" }, 
+                category: { displayName: "Jobs", name: "jobs" },
                 businesses: [
                     "business 1",
                     "business 2",
@@ -32,7 +32,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: { displayName: "Mental Health", category: "mental-health" }, 
+                category: { displayName: "Mental Health", name: "mental-health" },
                 businesses: [
                     "business 1",
                     "business 2",
@@ -40,7 +40,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: { displayName: "Pharmacies", category: "pharmacies" }, 
+                category: { displayName: "Pharmacies", name: "pharmacies" },
                 businesses: [
                     "business 1",
                     "business 2",
@@ -48,7 +48,7 @@ describe("all businesses endpoint", () => {
                 ],
             }),
             stubCategorizedBusinesses({
-                category: { displayName: "Transportation", category: "transportation" }, 
+                category: { displayName: "Transportation", name: "transportation" },
                 businesses: [
                     "business 1",
                     "business 2",
