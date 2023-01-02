@@ -1,59 +1,75 @@
 import { RequestHandler } from "express";
-import { Category, CATEGORIES } from "./categories";
+import { CATEGORIES, Category } from "./categories";
+import { stubBusiness } from "../../test-helpers/test-factories";
+import { faker } from "@faker-js/faker";
+
+export type Business = {
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    website: string;
+    phone: string;
+    description: string;
+}
 
 export type CategorizedBusinesses = {
     category: Category;
-    businesses: string[];
+    businesses: Business[];
 }
 
+export const FAKER_BUSINESSES_SEED = Math.floor(Math.random() * 1000);
+
 const businessesController = (): CategorizedBusinesses[] => {
+    faker.seed(FAKER_BUSINESSES_SEED);
     return [
         {
-            category: CATEGORIES.banks, 
+            category: CATEGORIES.banks,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
         {
-            category: CATEGORIES.food, 
+            category: CATEGORIES.food,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
         {
-            category: CATEGORIES.jobs, 
+            category: CATEGORIES.jobs,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
         {
-            category: CATEGORIES.mentalHealth, 
+            category: CATEGORIES.mentalHealth,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
         {
-            category: CATEGORIES.pharmacies, 
+            category: CATEGORIES.pharmacies,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
         {
-            category: CATEGORIES.transportation, 
+            category: CATEGORIES.transportation,
             businesses: [
-                "business 1",
-                "business 2",
-                "business 3",
+                stubBusiness(),
+                stubBusiness(),
+                stubBusiness(),
             ],
         },
     ];
