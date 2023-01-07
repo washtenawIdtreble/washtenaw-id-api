@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
 import { CATEGORIES, Category } from "./categories";
-import { stubBusiness } from "../../test-helpers/test-factories";
 import { faker } from "@faker-js/faker";
 
 export type Business = {
@@ -27,49 +26,49 @@ const businessesController = (): CategorizedBusinesses[] => {
         {
             category: CATEGORIES.banks,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
         {
             category: CATEGORIES.food,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
         {
             category: CATEGORIES.jobs,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
         {
             category: CATEGORIES.mentalHealth,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
         {
             category: CATEGORIES.pharmacies,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
         {
             category: CATEGORIES.transportation,
             businesses: [
-                stubBusiness(),
-                stubBusiness(),
-                stubBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
+                buildRandomBusiness(),
             ],
         },
     ];
@@ -77,4 +76,26 @@ const businessesController = (): CategorizedBusinesses[] => {
 
 export const handleBusinessesGet: RequestHandler = (_request, response) => {
     response.status(200).json(businessesController());
+};
+
+export const buildRandomBusiness = () => {
+    const name = toTitleCase(`${faker.word.adjective()} ${faker.word.noun()}`);
+    return {
+        name: `${name} ${faker.company.companySuffix()}`,
+        address: faker.address.streetAddress(),
+        city: faker.address.city(),
+        state: faker.address.stateAbbr(),
+        zip: faker.address.zipCode(),
+        website: faker.internet.url(),
+        phone: faker.phone.number(),
+        description: faker.lorem.paragraph(4),
+    };
+};
+
+const toTitleCase = (input: string) => {
+    const words = input.toLowerCase().split(" ");
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(" ");
 };
