@@ -2,38 +2,38 @@ import { RequestHandler } from "express";
 import { buildEmailTransport } from "../utilities/email-transport";
 import { ENV_KEYS } from "../utilities/environment";
 
-export type AccessibilityFormData = {
+export type ContactFormData = {
     name?: string
     email?: string
     phone?: string
     description: string
 }
 
-export const handleAccessibilityFormSubmit: RequestHandler = async (request, response) => {
-    const formData: AccessibilityFormData = request.body;
+export const handleContactFormSubmit: RequestHandler = async (request, response) => {
+    const formData: ContactFormData = request.body;
 
     if (!formData.description) {
-        response.status(400).send({ error: "The issue description is required. Please describe the issue you had and try again." });
+        response.status(400).send({ error: "A message is required. Please add a message and try again." });
         return;
     }
 
     try {
         const transport = buildEmailTransport();
 
-        let emailBody = "Accessibility report from";
+        let emailBody = "General contact from";
         emailBody = `${emailBody} ${formData.name || "Anonymous"}`;
         emailBody = `${emailBody} <${formData.email || "no email provided"}>`;
         emailBody = `${emailBody} <tel: ${formData.phone || "no phone number provided"}>`;
         emailBody = `${emailBody}\n\n${formData.description}`;
 
         await transport.sendMail({
-            to: process.env[ENV_KEYS.EMAIL_TO_ACCESSIBILITY],
-            subject: "Washtenaw ID Accessibility Issue Report",
+            to: process.env[ENV_KEYS.EMAIL_TO_CONTACT],
+            subject: "Washtenaw ID General Contact",
             text: emailBody,
         });
 
         response.status(200).end();
     } catch (error) {
-        response.status(500).send({ error: "Your report could not be sent, please try again later." });
+        response.status(500).send({ error: "Your message could not be sent, please try again later." });
     }
 };

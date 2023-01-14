@@ -1,33 +1,34 @@
-import { AccessibilityFormData, handleAccessibilityFormSubmit } from "./accessibility-form-submit";
 import request from "supertest";
 import { app } from "../app";
-import { stubAccessibilityFormData } from "../../test-helpers/test-factories";
+import { stubContactFormData } from "../../test-helpers/test-factories";
 import nodemailer from "nodemailer";
 import { buildEmailTransport } from "../utilities/email-transport";
 import { ENV_KEYS } from "../utilities/environment";
+import { ContactFormData, handleContactFormSubmit } from "./contact-form-submit";
 import mocked = jest.mocked;
 
 jest.mock("../utilities/email-transport");
 
-describe(handleAccessibilityFormSubmit.name, () => {
-    let emailFormData: AccessibilityFormData;
+describe(handleContactFormSubmit.name, () => {
+    const endpoint = "/contact-us";
+    let emailFormData: ContactFormData;
     let emailTransport: nodemailer.Transporter;
-    const accessibilityIssueEmail = "thedevs@wasthenawid.com";
+    const contactEmail = "thedevs@wasthenawid.com";
 
     beforeAll(() => {
-        process.env[ENV_KEYS.EMAIL_TO_ACCESSIBILITY] = accessibilityIssueEmail;
+        process.env[ENV_KEYS.EMAIL_TO_CONTACT] = contactEmail;
     });
 
     afterAll(() => {
-        delete process.env[ENV_KEYS.EMAIL_TO_ACCESSIBILITY];
+        delete process.env[ENV_KEYS.EMAIL_TO_CONTACT];
     });
 
     beforeEach(() => {
-        emailFormData = stubAccessibilityFormData({
+        emailFormData = stubContactFormData({
             name: "Henry Leroy Jennings",
             email: "lee@amideast.org",
             phone: "1234567890",
-            description: "The buttons are too close together!",
+            description: "Hellooooooo!",
         });
 
         emailTransport = { sendMail: jest.fn() } as unknown as nodemailer.Transporter;
@@ -35,14 +36,14 @@ describe(handleAccessibilityFormSubmit.name, () => {
     });
 
     test("sends form data to correct email address", async () => {
-        const response = await request(app).post("/accessibility-issues")
+        const response = await request(app).post(endpoint)
             .type("json")
             .send(JSON.stringify(emailFormData));
 
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
-            to: accessibilityIssueEmail,
-            subject: "Washtenaw ID Accessibility Issue Report",
-            text: `Accessibility report from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.description}`,
+            to: contactEmail,
+            subject: "Washtenaw ID General Contact",
+            text: `General contact from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.description}`,
         });
 
         expect(response.statusCode).toEqual(200);
@@ -54,14 +55,14 @@ describe(handleAccessibilityFormSubmit.name, () => {
             emailFormData.phone = "";
             emailFormData.email = "";
 
-            const response = await request(app).post("/accessibility-issues")
+            const response = await request(app).post(endpoint)
                 .type("json")
                 .send(JSON.stringify(emailFormData));
 
             expect(emailTransport.sendMail).toHaveBeenCalledWith({
-                to: accessibilityIssueEmail,
-                subject: "Washtenaw ID Accessibility Issue Report",
-                text: `Accessibility report from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.description}`,
+                to: contactEmail,
+                subject: "Washtenaw ID General Contact",
+                text: `General contact from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.description}`,
             });
 
             expect(response.statusCode).toEqual(200);
@@ -74,7 +75,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         beforeEach(async () => {
             emailFormData.description = "";
 
-            response = await request(app).post("/accessibility-issues")
+            response = await request(app).post(endpoint)
                 .type("json")
                 .send(JSON.stringify(emailFormData));
         });
@@ -84,7 +85,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         });
 
         test("responds with a readable error message", () => {
-            expect(JSON.parse(response.text).error).toEqual("The issue description is required. Please describe the issue you had and try again.");
+            expect(JSON.parse(response.text).error).toEqual("A message is required. Please add a message and try again.");
         });
 
         test("an email is not sent", () => {
@@ -98,7 +99,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         beforeEach(async () => {
             mocked(emailTransport.sendMail).mockResolvedValue(null);
 
-            response = await request(app).post("/accessibility-issues")
+            response = await request(app).post(endpoint)
                 .type("json")
                 .send(JSON.stringify(emailFormData));
         });
@@ -114,7 +115,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         beforeEach(async () => {
             mocked(emailTransport.sendMail).mockRejectedValue(new Error("sending the email failed"));
 
-            response = await request(app).post("/accessibility-issues")
+            response = await request(app).post(endpoint)
                 .type("json")
                 .send(JSON.stringify(emailFormData));
         });
@@ -124,7 +125,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         });
 
         test("responds with a readable error message", () => {
-            expect(JSON.parse(response.text).error).toEqual("Your report could not be sent, please try again later.");
+            expect(JSON.parse(response.text).error).toEqual("Your message could not be sent, please try again later.");
         });
     });
 
@@ -135,7 +136,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
                 throw new Error("Failed to build email transporter");
             });
 
-            response = await request(app).post("/accessibility-issues")
+            response = await request(app).post(endpoint)
                 .type("json")
                 .send(JSON.stringify(emailFormData));
         });
@@ -145,7 +146,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         });
 
         test("responds with a readable error message", () => {
-            expect(JSON.parse(response.text).error).toEqual("Your report could not be sent, please try again later.");
+            expect(JSON.parse(response.text).error).toEqual("Your message could not be sent, please try again later.");
         });
     });
 });
