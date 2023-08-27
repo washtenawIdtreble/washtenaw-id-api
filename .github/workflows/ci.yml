@@ -11,7 +11,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 16.13.0
+          node-version: 18.14.0
 
       # Install dependencies
       - run: npm install
