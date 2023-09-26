@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "nodemon",
-    "test": "jest",
+    "test": "jest --watchAll --detectOpenHandles",
     "cicd-tests": "jest --config ./jest.config.cicd.ts"
   },
   "author": "Washtenaw ID Project",

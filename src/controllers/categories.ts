@@ -22,6 +22,6 @@ const categoriesController = (): Category[] => {
     ];
 };
 
-export const handleCategoriesGet: RequestHandler = (_request, response) => {
-    response.status(200).json(categoriesController());
+export const handleCategoriesGet: RequestHandler = async(_request, response) => {
+    await new Promise(resolve => setTimeout(() => response.status(200).json(categoriesController()), 5000));
 };

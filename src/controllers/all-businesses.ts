@@ -74,8 +74,9 @@ const businessesController = (): CategorizedBusinesses[] => {
     ];
 };
 
-export const handleBusinessesGet: RequestHandler = (_request, response) => {
-    response.status(200).json(businessesController());
+export const handleBusinessesGet: RequestHandler = async (_request, response) => {
+    
+    await new Promise(resolve => setTimeout(() => response.status(200).json(businessesController(), ), 5000));
 };
 
 export const buildRandomBusiness = () => {
