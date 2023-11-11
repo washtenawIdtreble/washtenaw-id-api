@@ -6,13 +6,13 @@ export type AccessibilityFormData = {
     name?: string
     email?: string
     phone?: string
-    description: string
+    comments: string
 }
 
 export const handleAccessibilityFormSubmit: RequestHandler = async (request, response) => {
     const formData: AccessibilityFormData = request.body;
 
-    if (!formData.description) {
+    if (!formData.comments) {
         response.status(400).send({ error: "The issue description is required. Please describe the issue you had and try again." });
         return;
     }
@@ -24,7 +24,7 @@ export const handleAccessibilityFormSubmit: RequestHandler = async (request, res
         emailBody = `${emailBody} ${formData.name || "Anonymous"}`;
         emailBody = `${emailBody} <${formData.email || "no email provided"}>`;
         emailBody = `${emailBody} <tel: ${formData.phone || "no phone number provided"}>`;
-        emailBody = `${emailBody}\n\n${formData.description}`;
+        emailBody = `${emailBody}\n\n${formData.comments}`;
 
         await transport.sendMail({
             to: process.env[ENV_KEYS.EMAIL_TO_ACCESSIBILITY],

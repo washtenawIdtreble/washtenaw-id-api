@@ -27,7 +27,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
             name: "Henry Leroy Jennings",
             email: "lee@amideast.org",
             phone: "1234567890",
-            description: "The buttons are too close together!",
+            comments: "The buttons are too close together!",
         });
 
         emailTransport = { sendMail: jest.fn() } as unknown as nodemailer.Transporter;
@@ -42,7 +42,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
             to: accessibilityIssueEmail,
             subject: "Washtenaw ID Accessibility Issue Report",
-            text: `Accessibility report from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.description}`,
+            text: `Accessibility report from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.comments}`,
         });
 
         expect(response.statusCode).toEqual(200);
@@ -61,7 +61,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
             expect(emailTransport.sendMail).toHaveBeenCalledWith({
                 to: accessibilityIssueEmail,
                 subject: "Washtenaw ID Accessibility Issue Report",
-                text: `Accessibility report from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.description}`,
+                text: `Accessibility report from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.comments}`,
             });
 
             expect(response.statusCode).toEqual(200);
@@ -72,7 +72,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
         let response: request.Response;
 
         beforeEach(async () => {
-            emailFormData.description = "";
+            emailFormData.comments = "";
 
             response = await request(app).post("/accessibility-issues")
                 .type("json")
