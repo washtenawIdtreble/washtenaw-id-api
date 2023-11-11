@@ -28,7 +28,7 @@ describe(handleContactFormSubmit.name, () => {
             name: "Henry Leroy Jennings",
             email: "lee@amideast.org",
             phone: "1234567890",
-            description: "Hellooooooo!",
+            comments: "Hellooooooo!",
         });
 
         emailTransport = { sendMail: jest.fn() } as unknown as nodemailer.Transporter;
@@ -43,7 +43,7 @@ describe(handleContactFormSubmit.name, () => {
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
             to: contactEmail,
             subject: "Washtenaw ID General Contact",
-            text: `General contact from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.description}`,
+            text: `General contact from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.comments}`,
         });
 
         expect(response.statusCode).toEqual(200);
@@ -62,7 +62,7 @@ describe(handleContactFormSubmit.name, () => {
             expect(emailTransport.sendMail).toHaveBeenCalledWith({
                 to: contactEmail,
                 subject: "Washtenaw ID General Contact",
-                text: `General contact from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.description}`,
+                text: `General contact from Anonymous <no email provided> <tel: no phone number provided>\n\n${emailFormData.comments}`,
             });
 
             expect(response.statusCode).toEqual(200);
@@ -73,7 +73,7 @@ describe(handleContactFormSubmit.name, () => {
         let response: request.Response;
 
         beforeEach(async () => {
-            emailFormData.description = "";
+            emailFormData.comments = "";
 
             response = await request(app).post(endpoint)
                 .type("json")

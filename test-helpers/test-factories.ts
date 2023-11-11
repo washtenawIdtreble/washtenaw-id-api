@@ -55,7 +55,7 @@ export const stubAccessibilityFormData = (attributes: Partial<AccessibilityFormD
         name: attributes.name === undefined ? "Stub Name" : attributes.name,
         email: attributes.email === undefined ? "stub_email@example.com" : attributes.email,
         phone: attributes.phone === undefined ? "9999999999" : attributes.phone,
-        description: attributes.description === undefined ? "Stub Description" : attributes.description,
+        comments: attributes.comments === undefined ? "Stub Description" : attributes.comments,
     };
 };
 
@@ -64,7 +64,7 @@ export const stubContactFormData = (attributes: Partial<ContactFormData> = {}): 
         name: attributes.name === undefined ? "Stub Name" : attributes.name,
         email: attributes.email === undefined ? "stub_email@example.com" : attributes.email,
         phone: attributes.phone === undefined ? "9999999999" : attributes.phone,
-        description: attributes.description === undefined ? "Stub Description" : attributes.description,
+        comments: attributes.comments === undefined ? "Stub Description" : attributes.comments,
     };
 };
 
