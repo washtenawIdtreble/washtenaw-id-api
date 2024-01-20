@@ -1,8 +1,13 @@
 {
-  "name": "washtenaw-id-api",
   "license": "GPL-3.0-only",
-  "version": "0.1.0",
-  "description": "Public API for fetching information about the Washtenaw ID App",
+  "bugs": {
+    "url": "https://github.com/washtenawIdtreble/washtenaw-id-api/issues",
+    "email": "info@local-gov.id"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/washtenawIdtreble/washtenaw-id-api.git"
+  },
   "main": "src/sever.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
