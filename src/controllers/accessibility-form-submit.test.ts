@@ -23,12 +23,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
     });
 
     beforeEach(() => {
-        emailFormData = stubAccessibilityFormData({
-            name: "Henry Leroy Jennings",
-            email: "lee@amideast.org",
-            phone: "1234567890",
-            comments: "The buttons are too close together!",
-        });
+        emailFormData = stubAccessibilityFormData();
 
         emailTransport = { sendMail: jest.fn() } as unknown as nodemailer.Transporter;
         mocked(buildEmailTransport).mockReturnValue(emailTransport);
@@ -42,17 +37,23 @@ describe(handleAccessibilityFormSubmit.name, () => {
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
             to: accessibilityIssueEmail,
             subject: "Washtenaw ID Accessibility Issue Report",
-            text: `Accessibility report from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.comments}`,
+            text: `Accessibility report from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>
+
+${emailFormData.comments}
+
+Honeypot: ${emailFormData.honeypotValue}
+Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
         });
 
         expect(response.statusCode).toEqual(200);
     });
 
-    describe("when the user's name, email, or phone are missing", () => {
+    describe("when the optional values are missing", () => {
         test("sends the body of the email correctly", async () => {
             emailFormData.name = "";
             emailFormData.phone = "";
             emailFormData.email = "";
+            emailFormData.honeypotValue = "";
 
             const response = await request(app).post("/accessibility-issues")
                 .type("json")
@@ -131,6 +132,7 @@ describe(handleAccessibilityFormSubmit.name, () => {
     describe("when creating the email transporter fails", () => {
         let response: request.Response;
         beforeEach(async () => {
+            // @ts-ignore
             mocked(buildEmailTransport).mockImplementation(() => {
                 throw new Error("Failed to build email transporter");
             });

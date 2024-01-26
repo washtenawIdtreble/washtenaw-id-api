@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { buildEmailTransport } from "../utilities/email-transport";
 import { ENV_KEYS } from "../utilities/environment";
+import { HoneypotFormData } from "../utilities/types";
 
 export type IdRefusedFormData = {
     name?: string;
@@ -12,7 +13,7 @@ export type IdRefusedFormData = {
     whenRefused?: string
     ageRange?: string;
     description?: string;
-};
+} & HoneypotFormData;
 
 export const handleIdRefusedFormSubmit: RequestHandler = async (request, response) => {
     const formData: IdRefusedFormData = request.body;
@@ -37,6 +38,11 @@ export const handleIdRefusedFormSubmit: RequestHandler = async (request, respons
         emailBody = `${emailBody} in ${formData.businessCity}`;
         emailBody = `${emailBody} refused the ID ${formData.whenRefused || "<no date or time given>"}.`;
         emailBody = `${emailBody}\n\n${formData.description || "<no details given>"}`;
+
+        if (formData.honeypotValue !== "") {
+            emailBody = `${emailBody}\n\nHoneypot: ${formData.honeypotValue}`;
+            emailBody = `${emailBody}\nTime taken to fill out this form: ${formData.timeToFillForm}`;
+        }
 
         await transport.sendMail({
             to: process.env[ENV_KEYS.EMAIL_TO_CONTACT],

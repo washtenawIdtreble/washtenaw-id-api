@@ -24,12 +24,7 @@ describe(handleContactFormSubmit.name, () => {
     });
 
     beforeEach(() => {
-        emailFormData = stubContactFormData({
-            name: "Henry Leroy Jennings",
-            email: "lee@amideast.org",
-            phone: "1234567890",
-            comments: "Hellooooooo!",
-        });
+        emailFormData = stubContactFormData();
 
         emailTransport = { sendMail: jest.fn() } as unknown as nodemailer.Transporter;
         mocked(buildEmailTransport).mockReturnValue(emailTransport);
@@ -43,17 +38,23 @@ describe(handleContactFormSubmit.name, () => {
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
             to: contactEmail,
             subject: "Washtenaw ID General Contact",
-            text: `General contact from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>\n\n${emailFormData.comments}`,
+            text: `General contact from ${emailFormData.name} <${emailFormData.email}> <tel: ${emailFormData.phone}>
+
+${emailFormData.comments}
+
+Honeypot: ${emailFormData.honeypotValue}
+Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
         });
 
         expect(response.statusCode).toEqual(200);
     });
 
-    describe("when the user's name, email, or phone are missing", () => {
+    describe("when the optional values are missing", () => {
         test("sends the body of the email correctly", async () => {
             emailFormData.name = "";
             emailFormData.phone = "";
             emailFormData.email = "";
+            emailFormData.honeypotValue = "";
 
             const response = await request(app).post(endpoint)
                 .type("json")
@@ -132,6 +133,7 @@ describe(handleContactFormSubmit.name, () => {
     describe("when creating the email transporter fails", () => {
         let response: request.Response;
         beforeEach(async () => {
+            // @ts-ignore
             mocked(buildEmailTransport).mockImplementation(() => {
                 throw new Error("Failed to build email transporter");
             });

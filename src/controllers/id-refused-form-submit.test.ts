@@ -41,7 +41,10 @@ describe(handleIdRefusedFormSubmit.name, () => {
 
 reports that ${emailFormData.businessName} on ${emailFormData.businessStreet} in ${emailFormData.businessCity} refused the ID ${emailFormData.whenRefused}.
 
-${emailFormData.description}`,
+${emailFormData.description}
+
+Honeypot: ${emailFormData.honeypotValue}
+Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
         });
 
         expect(response.statusCode).toEqual(200);
@@ -55,6 +58,7 @@ ${emailFormData.description}`,
             emailFormData.whenRefused = "";
             emailFormData.ageRange = "";
             emailFormData.description = "";
+            emailFormData.honeypotValue = "";
 
             const response = await request(app).post("/id-refused")
                 .type("json")
@@ -123,6 +127,7 @@ reports that ${emailFormData.businessName} on ${emailFormData.businessStreet} in
     describe("when creating the email transporter fails", () => {
         let response: request.Response;
         beforeEach(async () => {
+            // @ts-ignore
             mocked(buildEmailTransport).mockImplementation(() => {
                 throw new Error("Failed to build email transporter");
             });
