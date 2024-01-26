@@ -47,6 +47,9 @@ export const stubIdRefusedFormData = (attributes: Partial<IdRefusedFormData> = {
         ageRange: attributes.ageRange === undefined ? faker.helpers.arrayElement(["under 18", "over 55"]) : attributes.ageRange,
 
         description: attributes.description === undefined ? faker.lorem.paragraph(3) : attributes.description,
+
+        honeypotValue: attributes.honeypotValue === undefined ? "Stub Honeypot Value" : attributes.honeypotValue,
+        timeToFillForm: attributes.timeToFillForm === undefined ? "Stub time to fill form" : attributes.timeToFillForm
     };
 };
 
@@ -56,6 +59,9 @@ export const stubAccessibilityFormData = (attributes: Partial<AccessibilityFormD
         email: attributes.email === undefined ? "stub_email@example.com" : attributes.email,
         phone: attributes.phone === undefined ? "9999999999" : attributes.phone,
         comments: attributes.comments === undefined ? "Stub Description" : attributes.comments,
+
+        honeypotValue: attributes.honeypotValue === undefined ? "Stub Honeypot Value" : attributes.honeypotValue,
+        timeToFillForm: attributes.timeToFillForm === undefined ? "Stub time to fill form" : attributes.timeToFillForm
     };
 };
 
@@ -65,6 +71,9 @@ export const stubContactFormData = (attributes: Partial<ContactFormData> = {}): 
         email: attributes.email === undefined ? "stub_email@example.com" : attributes.email,
         phone: attributes.phone === undefined ? "9999999999" : attributes.phone,
         comments: attributes.comments === undefined ? "Stub Description" : attributes.comments,
+
+        honeypotValue: attributes.honeypotValue === undefined ? "Stub Honeypot Value" : attributes.honeypotValue,
+        timeToFillForm: attributes.timeToFillForm === undefined ? "Stub time to fill form" : attributes.timeToFillForm
     };
 };
 
