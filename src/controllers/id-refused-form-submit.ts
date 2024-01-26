@@ -42,6 +42,7 @@ export const handleIdRefusedFormSubmit: RequestHandler = async (request, respons
         if (formData.honeypotValue !== "") {
             emailBody = `${emailBody}\n\nHoneypot: ${formData.honeypotValue}`;
             emailBody = `${emailBody}\nTime taken to fill out this form: ${formData.timeToFillForm}`;
+            emailBody = `${emailBody}\nIP Address: ${request.headers["x-forwarded-for"]}`;
         }
 
         await transport.sendMail({

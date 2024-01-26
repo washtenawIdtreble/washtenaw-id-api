@@ -31,8 +31,10 @@ describe(handleContactFormSubmit.name, () => {
     });
 
     test("sends form data to correct email address", async () => {
+        const ipAddress = "123.456.1.1";
         const response = await request(app).post(endpoint)
             .type("json")
+            .set("x-forwarded-for", ipAddress)
             .send(JSON.stringify(emailFormData));
 
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
@@ -43,7 +45,8 @@ describe(handleContactFormSubmit.name, () => {
 ${emailFormData.comments}
 
 Honeypot: ${emailFormData.honeypotValue}
-Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
+Time taken to fill out this form: ${emailFormData.timeToFillForm}
+IP Address: ${ipAddress}`,
         });
 
         expect(response.statusCode).toEqual(200);

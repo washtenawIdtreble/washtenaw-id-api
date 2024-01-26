@@ -30,8 +30,11 @@ describe(handleAccessibilityFormSubmit.name, () => {
     });
 
     test("sends form data to correct email address", async () => {
-        const response = await request(app).post("/accessibility-issues")
+        const ipAddress = "123.456.1.1";
+        const response = await request(app)
+            .post("/accessibility-issues")
             .type("json")
+            .set("x-forwarded-for", ipAddress)
             .send(JSON.stringify(emailFormData));
 
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
@@ -42,7 +45,8 @@ describe(handleAccessibilityFormSubmit.name, () => {
 ${emailFormData.comments}
 
 Honeypot: ${emailFormData.honeypotValue}
-Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
+Time taken to fill out this form: ${emailFormData.timeToFillForm}
+IP Address: ${ipAddress}`,
         });
 
         expect(response.statusCode).toEqual(200);

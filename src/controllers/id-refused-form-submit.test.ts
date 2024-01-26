@@ -30,8 +30,10 @@ describe(handleIdRefusedFormSubmit.name, () => {
     });
 
     test("sends form data to correct email address", async () => {
+        const ipAddress = "123.456.1.1";
         const response = await request(app).post("/id-refused")
             .type("json")
+            .set("x-forwarded-for", ipAddress)
             .send(JSON.stringify(emailFormData));
 
         expect(emailTransport.sendMail).toHaveBeenCalledWith({
@@ -44,7 +46,8 @@ reports that ${emailFormData.businessName} on ${emailFormData.businessStreet} in
 ${emailFormData.description}
 
 Honeypot: ${emailFormData.honeypotValue}
-Time taken to fill out this form: ${emailFormData.timeToFillForm}`,
+Time taken to fill out this form: ${emailFormData.timeToFillForm}
+IP Address: ${ipAddress}`,
         });
 
         expect(response.statusCode).toEqual(200);
